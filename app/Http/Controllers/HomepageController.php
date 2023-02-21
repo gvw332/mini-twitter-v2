@@ -15,15 +15,28 @@ class HomepageController extends Controller
             'tweets' => $tweets,
         ]);
     }
+
+    public function tweet()
+    {
+        $tweets = Tweet::with('user')->orderBy('created_at','ASC')->paginate(10);
+
+        return view('home.index', [
+            'tweets' => $tweets,
+        ]);
+    }
+
+
     public function search(Request $request)
     {
-    $query = $request->input('query');
+    $search = $request->input('search');
    
-    $tweets = Tweet::where('text', 'like', '%'.$query.'%')->get();
-    $users = User::where('name', 'like', '%'.$query.'%')->get();
-   
-
-    return view('search.results', compact('tweets', 'users', 'query'));
+    $tweets = Tweet::where('text', 'like', '%'.$search.'%')
+                  ->orWhereHas('user', function ($query) use ($search) {
+                      $query->where('name', 'like', '%'.$search.'%');
+                  })
+                  ->get();
+    // dd($tweets);
+    return view('home.index',['tweets' => $tweets]);
     }
 
 }

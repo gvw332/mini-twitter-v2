@@ -15,11 +15,10 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div
-            class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 ">
             <nav class="flex justify-center mb-10 w-full">
                 <a href="{{ route('home') }}">
-                    <svg class="h-10 fill-current text-indigo-500 mr-12"
+                    <svg class="h-10 fill-current text-indigo-500 mr-8 mt-6 "
                         xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
                         viewBox="0 0 248 204">
                         <path
@@ -27,7 +26,7 @@
                     </svg>
                 </a>
     
-                <div class="flex space-x-8 mr-4 ">
+                <div class="flex space-x-8 mr-4 pt-8">
                     <a href="{{ route('login') }}"
                         class="text-sm text-gray-700 underline">Log in</a>
     
