@@ -15,6 +15,10 @@
     
 
     <div class="text-gray-700">
+        {{ $tweet->created_at}} 
+    </div>
+
+    <div class="text-gray-700">
         {{ $tweet->text }}
     </div>
 

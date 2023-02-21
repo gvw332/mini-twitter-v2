@@ -18,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/search', [HomepageController::class, 'search'])->name('search');
-Route::get('/home', function () {
-    return view('home');
-})->middleware(['auth', 'verified'])->name('home');
+Route::get('/home', [HomepageController::class, 'tweet'])->name('tweet');
+// Route::get('/home', function () {
+//     return view('home');
+// })->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
