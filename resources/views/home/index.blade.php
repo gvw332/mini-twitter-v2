@@ -2,15 +2,19 @@
     <div class="text-center">
         @include('layouts.navigation')
 
-        <div class="mt-8 border h-40">
-            <p>Qu'avez vous fait aujourd'hui?</p>
+        {{-- A METTRE DANS LA PAGE D'ACCUEIL DE L'UTILISATEUR QUI EST CONNECTé 
+        
+            <div class="m-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 h-40">
             <input class="w-full h-20 text-center" type="text" name="contenuTweet" placeholder="Quoi de neuf ?">
-            <button class="p-4 bg-[#a3e635]" type="submit">Tweetez</button>
-        </div>
+            <div></div>
+            <button class="m-4 p-4 bg-[#a3e635]" type="submit">Diffusez </button>
+            </div> 
+            
+        --}}
 
         <div>
-            <form class="p-4 bg-[#1da1f2]" action="/search" method="GET">
-                <input type="text" name="search" placeholder="Search tweet or tweeter">
+            <form class=" bg-[#1da1f2]" action="/search" method="GET">
+                <input type="text" name="search" placeholder="Search..">
                 <button type="submit">Search</button>
             </form>
         </div>
@@ -23,7 +27,7 @@
                     </li>
                 @endforeach
             </ul>
-
+            
             <div class="mt-4">
                 {{ $tweets->links() }}
             </div>
