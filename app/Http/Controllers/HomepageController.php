@@ -18,7 +18,7 @@ class HomepageController extends Controller
 
     public function tweet()
     {
-        $tweets = Tweet::with('user')->orderBy('created_at','ASC')->paginate(10);
+        $tweets = Tweet::with('user')->latest()->paginate(10);
 
         return view('home.index', [
             'tweets' => $tweets,

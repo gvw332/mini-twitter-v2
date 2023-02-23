@@ -2,15 +2,14 @@
     <div class="text-center">
         @include('layouts.navigation')
 
-        {{-- A METTRE DANS LA PAGE D'ACCUEIL DE L'UTILISATEUR QUI EST CONNECTé 
-        
+        @if(auth()->check()) 
             <div class="m-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 h-40">
             <input class="w-full h-20 text-center" type="text" name="contenuTweet" placeholder="Quoi de neuf ?">
             <div></div>
             <button class="m-4 p-4 bg-[#a3e635]" type="submit">Diffusez </button>
             </div> 
-            
-        --}}
+        @endif
+
 
         <div>
             <form class=" bg-[#1da1f2]" action="/search" method="GET">
