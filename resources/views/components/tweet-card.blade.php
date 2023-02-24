@@ -5,20 +5,20 @@
         <div class="text-xl font-bold">
             {{ $tweet->user->name }}
         </div>
-        
+
 
         @if ($tweet->user->avatar != null)
             <img class="mx-auto m-4 w-40 h-48 rounded-full" src=" {{ $tweet->user->avatar }}">
-        @else 
+        @else
             "pas d'avatar"
         @endif
 
 
-    </div>  
-    
+    </div>
+
 
     <div class="text-gray-700 m-4">
-        {{ $tweet->created_at}} 
+        {{ $tweet->created_at }}
     </div>
 
     <div class="text-gray-700 m-4">
@@ -26,12 +26,11 @@
     </div>
 
     <div class="flex justify-center">
-        @if ($tweet->img != null)        
-           <img class="mx-auto w-300 h-80 m-4" src="{{ $tweet->img }}">
+        @if ($tweet->img != null)
+            <img class="mx-auto w-300 h-80 m-4" src="{{ $tweet->img }}">
 
-           {{-- {{ $tweet->img }} --}}
-           
-        @else 
+            {{-- {{ $tweet->img }} --}}
+        @else
             "pas d'image"
         @endif
 
@@ -41,9 +40,9 @@
     <div class="flex justify-center p-2">
         <x-heroicon-o-heart class="w-5 h-5 m-5 text-gray-500" />
         <x-heroicon-s-arrows-right-left class="w-5 h-5 m-5 text-gray-500" />
-        <x-heroicon-s-bars-3-center-left class="w-5 h-5 m-5 text-gray-500"/>
+        <x-heroicon-s-bars-3-center-left class="w-5 h-5 m-5 text-gray-500" />
     </div>
-    
+
 </div>
 
 
