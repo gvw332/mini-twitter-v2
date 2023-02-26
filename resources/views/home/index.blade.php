@@ -2,19 +2,45 @@
     <div class="text-center">
         @include('layouts.navigation')
 
-        @if (auth()->check())
-            <div class="m-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 h-40">
-                <input class="w-full h-20 text-center" type="text" name="contenuTweet" placeholder="Quoi de neuf ?">
-                <div></div>
-                <button class="m-4 p-4 bg-[#a3e635]" type="submit">Diffusez </button>
+        @if (auth()->check()) 
+            <div class="text-center m-8">    
+                <form class="m-8" action="{{ route('addTweet') }}" method="GET" enctype="multipart/form-data">
+                        
+                    <div>
+                        
+                        <textarea class="m-2" name="text" id="text" cols="30" rows="10">{{ old('text') }}</textarea>
+                        @error('text')
+                            <p>{{ $message }}</p>
+                        @enderror
+                    </div>
+    
+                    <div>
+                        <label for="images">Images :</label>
+                        <input type="file" name="images[]" id="images" multiple>
+                        @error('images.*')
+                            <p class="bg-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    
+                    <div>
+                        <label for="videos">Vidéos :</label>
+                        <input type="file" name="videos[]" id="videos" multiple>
+                        @error('videos.*')
+                            <p class="bg-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+    
+                    <button class="m-4 p-4 bg-[#a3e635]" type="submit">Diffusez</button>
+                </form>
+        
             </div>
         @endif
 
 
         <div>
             <form class=" bg-[#1da1f2]" action="/search" method="GET">
-                <input type="text" name="search" placeholder="Search..">
-                <button type="submit">Search</button>
+                <input type="text" name="search" placeholder="Recherche..">
+                <button type="submit">Recherche</button>
             </form>
         </div>
 
@@ -32,15 +58,6 @@
                     </li>
                 @endforeach
             </ul>
-{{--         
-            @forelse ($tweets as $tweet)
-                <li class="flex flex-col ">
-                    <x-tweet-card :tweet="$tweet" />
-                </li>
-            @empty
-                <p class="bg-red-400">Aucun tweet trouvé pour la recherche "{{ $search }}".</p>
-            @endforelse
-         --}}
 
 
             <div class="mt-4">
@@ -50,3 +67,5 @@
         </div>
     </div>
 </x-guest-layout>
+
+

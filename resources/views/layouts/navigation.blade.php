@@ -2,7 +2,9 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
+
             <div class="flex">
+
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
@@ -13,15 +15,17 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Home') }}
+                        {{ __('Accueil') }}
                     </x-nav-link>
+
+                    @if (Auth::check())
+                    <x-nav-link :href="route('myTweets')" :active="request()->routeIs('myTweets')">
+                        {{ __('Mes tweets') }}
+                    </x-nav-link>
+                    @endif
                 </div>
 
-
             </div>
-
-
-
 
 
             <!-- Settings Dropdown -->
@@ -64,15 +68,6 @@
                         @else
                             <nav class="flex justify-center mb-10 w-full">
                                 <a href="{{ route('home') }}"></a>
-
-                                {{-- <div class="flex space-x-8 mr-4 pt-8">
-                                <a href="{{ route('login') }}"
-                                    class="text-4xl pr-4 text-gray-700 ">Login</a>
-                
-                                <a href="{{ route('register') }}"
-                                    class="text-4xl text-gray-700">Register</a>
-                            </div> --}}
-
                                 <x-dropdown-link :href="route('login')">
                                     {{ __('login') }}
                                 </x-dropdown-link>
@@ -85,10 +80,6 @@
 
                 </x-dropdown>
             </div>
-
-
-
-
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -103,6 +94,7 @@
                     </svg>
                 </button>
             </div>
+
         </div>
     </div>
 

@@ -28,7 +28,18 @@ class HomepageController extends Controller
             'tweets' => $tweets,
         ]);
     }
-
+    
+    public function myTweets()
+    {
+        $tweets = Tweet::with('user')
+                    ->where('user_id', auth()->id())
+                    ->latest()
+                    ->paginate(10);
+    
+        return view('home.index', [
+            'tweets' => $tweets,
+        ]);
+    }
 
     public function search(Request $request)
     {
@@ -48,6 +59,8 @@ class HomepageController extends Controller
         // dd($tweets, $search);
         return view('home.index', ['tweets' => $tweets, 'search' => $search, 'notweets' => $notweets]);
     }
+
+
 }
 
 

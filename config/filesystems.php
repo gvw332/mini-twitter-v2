@@ -27,7 +27,7 @@ return [
     | Supported Drivers: "local", "ftp", "sftp", "s3"
     |
     */
-
+ 
     'disks' => [
 
         'local' => [
@@ -42,6 +42,7 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
+
         ],
 
         's3' => [
