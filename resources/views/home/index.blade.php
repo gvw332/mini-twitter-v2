@@ -4,10 +4,9 @@
 
         @if (auth()->check()) 
             <div class="text-center m-8">    
-                <form class="m-8" action="{{ route('addTweet') }}" method="GET" enctype="multipart/form-data">
-                        
-                    <div>
-                        
+                <form class="m-8" action="{{ route('addTweet') }}" method="POST" enctype="multipart/form-data">
+                    @csrf    
+                    <div>                        
                         <textarea class="m-2" name="text" id="text" cols="30" rows="10">{{ old('text') }}</textarea>
                         @error('text')
                             <p>{{ $message }}</p>
@@ -15,17 +14,17 @@
                     </div>
     
                     <div>
-                        <label for="images">Images :</label>
-                        <input type="file" name="images[]" id="images" multiple>
-                        @error('images.*')
+                        <label for="image">Image :</label>
+                        <input type="file" name="image" id="image">
+                        @error('image.*')
                             <p class="bg-red-400">{{ $message }}</p>
                         @enderror
                     </div>
                     
                     <div>
-                        <label for="videos">Vidéos :</label>
-                        <input type="file" name="videos[]" id="videos" multiple>
-                        @error('videos.*')
+                        <label for="video">Vidéo :</label>
+                        <input type="file" name="video" id="video">
+                        @error('video.*')
                             <p class="bg-red-400">{{ $message }}</p>
                         @enderror
                     </div>

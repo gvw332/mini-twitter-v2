@@ -1,57 +1,56 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;;
-
+use Illuminate\Http\Request;
 use App\Models\Tweet;
 use Illuminate\Support\Facades\Storage;
 
 class TweetController extends Controller
 {
-    public function create()
-    {
-        return view('tweets.create');
-    }
-
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request): RedirectResponse
     {
-        
-        // Validation des données de la requête
-        $validatedData = $request->validate([
-            'text' => 'required|max:500', // limite de 500 caractères pour le texte
-            // 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:5000', // les images doivent être au format JPEG, PNG, JPG ou GIF et avoir une taille maximale de 5 Mo
-            // 'videos.*' => 'video|mimetypes:video/mp4|max:100000', // les vidéos doivent être au format MP4 et avoir une taille maximale de 50 Mo
-        ]);
-        
-        // Créer un nouveau tweet
-        $tweet = new Tweet([
-            'text' => $validatedData['text'],
-            'user_id' => auth()->id(),
-        ]);
-    
-        // Ajouter les images au tweet
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = Storage::disk('public')->put('image', $image);
+        try {
+            $validatedData = $request->validate([
+                'text' => 'required|max:500',
+                'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:5000', // validate each image
+                'video.*' => 'video|mimes:mp4',
+            ]);
+
+            // Créer un nouveau tweet
+            $tweet = new Tweet([
+                'text' => $validatedData['text'],
+                'user_id' => auth()->id(),
+            ]);
+
+            // Ajouter l'image au tweet
+            if ($request->hasFile('image')) {
+                $path = Storage::disk('public')->put('img-tweet', $request->image);
                 $tweet->img = $path;
             }
-        }
-    
-        // Ajouter les vidéos au tweet
-        if ($request->hasFile('videos')) {
-            foreach ($request->file('videos') as $video) {
-                $path = Storage::disk('public')->put('video', $video);
+
+            // Ajouter les vidéos au tweet
+            if ($request->hasFile('video')) {
+                $path = Storage::disk('public')->put('video-tweet', $request->video);
                 $tweet->video = $path;
             }
+
+            // Sauvegarder le tweet
+            $tweet->save();
+
+            return redirect()->route('myTweets');
+        } catch (ValidationException $exception) {
+
+            return redirect()->back()->withErrors($exception->errors())->withInput();
         }
-        
-        // Sauvegarder le tweet
-        $tweet->save();
-    
-        return redirect()->route('home');
     }
+
+
 
     /**
      * Display the specified resource.

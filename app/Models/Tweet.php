@@ -13,6 +13,8 @@ class Tweet extends Model
     protected $fillable = [
         'text',
         'user_id',
+        'img',
+        'video',
         // Autres champs remplissables
     ];
     public function user()
@@ -20,19 +22,3 @@ class Tweet extends Model
         return $this->belongsTo(User::class);
     }
 }
-
-// <?php
-
-// namespace App\Models;
-// use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Database\Eloquent\Model;
-
-// class Tweet extends Model
-// {
-//     protected $fillable = [
-//         'text',
-//         // Autres champs remplissables
-//     ];
-
-//     // Autres méthodes de la classe
-// }

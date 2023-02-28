@@ -2,10 +2,8 @@
 
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TweetController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/search', [HomepageController::class, 'search'])->name('search');
 Route::get('/home', [HomepageController::class, 'tweet'])->name('tweet');
@@ -30,8 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::put('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
-    Route::get('/addTweet', [TweetController::class, 'store'])->name('addTweet');
-
+    Route::post('/addTweet', [TweetController::class, 'store'])->name('addTweet');
 });
-
 require __DIR__ . '/auth.php';
