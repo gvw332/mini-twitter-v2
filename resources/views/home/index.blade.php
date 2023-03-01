@@ -43,17 +43,19 @@
             </form>
         </div>
 
-        {{-- @dd($tweets,$search) --}}
-
+       
         <div>
+            
             @if (isset($notweets)and $notweets)
                 <p class="bg-red-400">Aucun tweet trouvé pour la recherche "{{ $search }}".</p>
             @endif
 
             <ul class="flex flex-col space-y-4">
-                @foreach ($tweets as $tweet)
-                    <li class="flex flex-col ">
-                        <x-tweet-card :tweet="$tweet" />
+               
+                
+                @foreach ($tweets as $tweet)                    
+                    <li id="tweet-{{$tweet->id}}" class="flex flex-col">                       
+                        <x-tweet-card :tweet="$tweet" :page="$page" />
                     </li>
                 @endforeach
             </ul>

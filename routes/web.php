@@ -18,9 +18,7 @@ Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/search', [HomepageController::class, 'search'])->name('search');
 Route::get('/home', [HomepageController::class, 'tweet'])->name('tweet');
 Route::get('/tweets', [HomepageController::class, 'myTweets'])->name('myTweets');
-// Route::get('/home', function () {
-//     return view('home');
-// })->middleware(['auth', 'verified'])->name('home');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -28,5 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::put('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
     Route::post('/addTweet', [TweetController::class, 'store'])->name('addTweet');
+    Route::get('/liked/{id}', [TweetController::class, 'like']);
 });
 require __DIR__ . '/auth.php';

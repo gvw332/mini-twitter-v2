@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use App\Models\User;
 use App\Models\Tweet;
 use Illuminate\Http\Request;
@@ -13,10 +14,12 @@ class HomepageController extends Controller
 
     public function index()
     {
+        
         $tweets = Tweet::with('user')->latest()->paginate(10);
-
+        $page = $tweets->currentPage();
         return view('home.index', [
             'tweets' => $tweets,
+            'page' => $page,
         ]);
     }
 
@@ -41,6 +44,7 @@ class HomepageController extends Controller
         ]);
     }
 
+
     public function search(Request $request)
     {
         $search = $request->input('search');
@@ -56,8 +60,14 @@ class HomepageController extends Controller
             $tweets = Tweet::with('user')->latest()->paginate(10);
             $notweets = true;
         }
-        // dd($tweets, $search);
-        return view('home.index', ['tweets' => $tweets, 'search' => $search, 'notweets' => $notweets]);
+        // Compter le nombre d'enregistrements correspondant à $id dans le fichier "like"
+        $tweets = Tweet::all();
+        $likeCounts = [];
+            
+        foreach ($tweets as $tweet) {
+            $likeCounts[$tweet->id] = Like::where('tweet_id', $tweet->id)->count();
+        }
+        return view('home.index', ['tweets' => $tweets, 'search' => $search, 'notweets' => $notweets, 'likeCounts' => $likeCounts]);
     }
 
 

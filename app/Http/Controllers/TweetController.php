@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Tweet;
+use App\Models\Like;
 use Illuminate\Support\Facades\Storage;
 
 class TweetController extends Controller
@@ -44,6 +46,51 @@ class TweetController extends Controller
             $tweet->save();
 
             return redirect()->route('myTweets');
+        } catch (ValidationException $exception) {
+
+            return redirect()->back()->withErrors($exception->errors())->withInput();
+        }
+    }
+
+
+
+    public function like($id, Request $request): RedirectResponse
+    {
+
+
+        // Rediriger vers la page d'origine avec le nombre de likes
+        // return redirect()->route('home')->with('likeCount', $likeCount);  
+
+        try {
+
+            // Créer un nouveau like
+            $like = new Like([
+                'user_id' => auth()->id(),
+                'tweet_id' => $id,
+                'likable' => 1,
+            ]);
+
+            // $like->tweet()->associate($this);            
+            $like->save();
+
+            // Compter le nombre d'enregistrements correspondant à $id dans le fichier "like"
+            // $tweets = Tweet::all();
+            // $likeCounts = [];
+
+            // foreach ($tweets as $tweet) {
+            //     $likeCounts[$tweet->id] = Like::where('tweet_id', $tweet->id)->count();
+            // }
+            // $leslikes = Like::all();
+            // $unlike = $leslikes[0];
+            // dd($unlike);
+            // Récupérer la valeur de $page depuis la requête
+            $page = $request->input('page');
+
+
+            return redirect()->route('home', ['page' => $page]);
+            // return redirect()->route('home', ['page' => $page, 'likeCounts' => $likeCounts]); 
+            // return redirect()->route('home', ['page' => $page, 'leslikes' => $leslikes, 'unlike' => $unlike ]); 
+
         } catch (ValidationException $exception) {
 
             return redirect()->back()->withErrors($exception->errors())->withInput();
