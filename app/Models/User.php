@@ -48,7 +48,11 @@ class User extends Authenticatable
         return $this->hasMany(Tweet::class);
     }
     public function avatar()
-{
-    return $this->hasOne(Avatar::class);
-}
+    {
+        return $this->hasOne(Avatar::class);
+    }
+    public function likes()
+    {
+        return $this->hasOne(Like::class);
+    } 
 }
