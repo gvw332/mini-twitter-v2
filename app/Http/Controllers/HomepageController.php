@@ -15,7 +15,10 @@ class HomepageController extends Controller
     public function index()
     {
         
-        $tweets = Tweet::with('user')->latest()->paginate(10);
+        $tweets = Tweet::with('user')
+        ->withCount('likes')
+        ->latest()
+        ->paginate(10);
         $page = $tweets->currentPage();
         return view('home.index', [
             'tweets' => $tweets,
@@ -25,22 +28,31 @@ class HomepageController extends Controller
 
     public function tweet()
     {
-        $tweets = Tweet::with('user')->latest()->paginate(10);
-
+        
+        $tweets = Tweet::with('user')
+        ->withCount('likes')
+        ->latest()
+        ->paginate(10);
+        
+        $page = $tweets->currentPage();
+        
         return view('home.index', [
             'tweets' => $tweets,
+            'page' => $page,
         ]);
     }
     
     public function myTweets()
     {
         $tweets = Tweet::with('user')
+                    ->withCount('likes')
                     ->where('user_id', auth()->id())
                     ->latest()
                     ->paginate(10);
-    
+        $page = $tweets->currentPage();
         return view('home.index', [
             'tweets' => $tweets,
+            'page' => $page,
         ]);
     }
 
@@ -53,21 +65,19 @@ class HomepageController extends Controller
             ->orWhereHas('user', function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })
+            ->withCount('likes')
             ->latest()->paginate(10);
         $notweets = false;
 
         if ($tweets->isEmpty()) {
-            $tweets = Tweet::with('user')->latest()->paginate(10);
+            $tweets = Tweet::with('user')
+            ->withCount('likes')
+            ->latest()
+            ->paginate(10);
             $notweets = true;
         }
-        // Compter le nombre d'enregistrements correspondant à $id dans le fichier "like"
-        $tweets = Tweet::all();
-        $likeCounts = [];
-            
-        foreach ($tweets as $tweet) {
-            $likeCounts[$tweet->id] = Like::where('tweet_id', $tweet->id)->count();
-        }
-        return view('home.index', ['tweets' => $tweets, 'search' => $search, 'notweets' => $notweets, 'likeCounts' => $likeCounts]);
+        $page = $tweets->currentPage();
+        return view('home.index', ['tweets' => $tweets, 'search' => $search, 'notweets' => $notweets,'page' => $page]);
     }
 
 

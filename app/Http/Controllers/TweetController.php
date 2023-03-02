@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Tweet;
 use App\Models\Like;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class TweetController extends Controller
@@ -53,49 +54,50 @@ class TweetController extends Controller
     }
 
 
-
     public function like($id, Request $request): RedirectResponse
     {
-
-
-        // Rediriger vers la page d'origine avec le nombre de likes
-        // return redirect()->route('home')->with('likeCount', $likeCount);  
-
         try {
+            // Récupérer l'utilisateur connecté
+            $user = auth()->user();
+            $user_id = $user->id;
 
-            // Créer un nouveau like
-            $like = new Like([
-                'user_id' => auth()->id(),
-                'tweet_id' => $id,
-                'likable' => 1,
-            ]);
+            // Récupérer le tweet à liker
+            $tweet = Tweet::findOrFail($id);
 
-            // $like->tweet()->associate($this);            
-            $like->save();
+            // Vérifier si l'utilisateur n'est pas l'auteur du tweet
+            if ($user->id === $tweet->user_id) {
+                return redirect()->back()->withErrors(['error' => 'Vous ne pouvez pas liker votre propre tweet']);
+            }
 
-            // Compter le nombre d'enregistrements correspondant à $id dans le fichier "like"
-            // $tweets = Tweet::all();
-            // $likeCounts = [];
+            // Vérifier si le "like" n'existe pas
+            $existing_like = Like::where('user_id', $user_id)
+                ->where('tweet_id', $id)
+                ->first();
 
-            // foreach ($tweets as $tweet) {
-            //     $likeCounts[$tweet->id] = Like::where('tweet_id', $tweet->id)->count();
-            // }
-            // $leslikes = Like::all();
-            // $unlike = $leslikes[0];
-            // dd($unlike);
-            // Récupérer la valeur de $page depuis la requête
+            // Si le "like" n'existe pas, le crée
+            if (!$existing_like) {
+                $like = new Like;
+                $like->user_id = $user_id;
+                $like->tweet_id = $id;
+                $like->save();
+                // Mettre à jour le nombre de likes dans le cache
+                $cache_key = 'tweet_likes_' . $id;
+                Cache::increment($cache_key);
+            } else {
+                $existing_like->delete();
+                // Mettre à jour le nombre de likes dans le cache
+                $cache_key = 'tweet_likes_' . $id;
+                Cache::decrement($cache_key);
+            }
+
             $page = $request->input('page');
 
-
             return redirect()->route('home', ['page' => $page]);
-            // return redirect()->route('home', ['page' => $page, 'likeCounts' => $likeCounts]); 
-            // return redirect()->route('home', ['page' => $page, 'leslikes' => $leslikes, 'unlike' => $unlike ]); 
-
         } catch (ValidationException $exception) {
-
             return redirect()->back()->withErrors($exception->errors())->withInput();
         }
     }
+
 
 
 

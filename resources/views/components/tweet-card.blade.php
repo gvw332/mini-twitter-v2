@@ -46,13 +46,11 @@
 
     <div class="flex justify-center p-2">
 
-
         <a href="{{ url('liked/' . $tweet->id . '?page=' . $page . '#tweet-' . $tweet->id) }}">
-            <x-heroicon-o-heart class="w-5 h-5 m-5  text-black hover:text-red-500 active:text-red-600 active:bg-red" />
+            <x-heroicon-s-heart class="w-5 h-5 m-5 {{ $tweet->isLikedBy(auth()->user()) ? 'text-red-500' : 'text-black-500' }} hover:text-red-500"/>
+          
 
-            {{-- {{ $likeCounts[$tweet->id] }} --}}
-        
-        </a>
+            {{ $tweet-> likes_count }}
 
         <a href="#">
             <x-heroicon-s-arrows-right-left class="w-5 h-5 m-5 text-gray-500" />
