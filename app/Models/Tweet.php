@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 
 class Tweet extends Model
 {
@@ -26,7 +27,13 @@ class Tweet extends Model
         return $this->hasMany(Like::class);
     }
     public function isLikedBy(User $user)
-{
-    return $this->likes->contains('user_id', $user->id);
+    {
+        if ($user) {
+            return $this->likes->contains('user_id', $user->id);
+        }
+        // Gérer le cas où $user est null
+        throw new InvalidArgumentException('$user ne peut pas être null');
+    }
 }
-}
+?>
+

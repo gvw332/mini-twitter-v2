@@ -3,11 +3,11 @@
         @include('layouts.navigation')
 
         @if (auth()->check()) 
-            <div class="text-center m-8">    
+            <div class="text-center m-8 pt-6">    
                 <form class="m-8" action="{{ route('addTweet') }}" method="POST" enctype="multipart/form-data">
                     @csrf    
                     <div>                        
-                        <textarea class="m-2" name="text" id="text" cols="30" rows="10">{{ old('text') }}</textarea>
+                        <textarea placeholder="Quoi de neuf ?" class="m-2" name="text" id="text" cols="50" rows="5">{{ old('text') }}</textarea>
                         @error('text')
                             <p>{{ $message }}</p>
                         @enderror
@@ -29,7 +29,7 @@
                         @enderror
                     </div>
     
-                    <button class="m-4 p-4 bg-[#a3e635]" type="submit">Diffusez</button>
+                    <button class="m-4 p-4 bg-[#a3e635] rounded-xl" type="submit">Diffusez</button>
                 </form>
         
             </div>
@@ -50,11 +50,11 @@
                 <p class="bg-red-400">Aucun tweet trouvé pour la recherche "{{ $search }}".</p>
             @endif
 
-            <ul class="flex flex-col space-y-4">
+            <ul class="flex flex-col space-y-4 pt-8">
                
                 
                 @foreach ($tweets as $tweet)                    
-                    <li id="tweet-{{$tweet->id}}" class="flex flex-col">                       
+                    <li id="tweet-{{$tweet->id}}">                       
                         <x-tweet-card :tweet="$tweet" :page="$page" />
                     </li>
                 @endforeach

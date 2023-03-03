@@ -27,5 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
     Route::post('/addTweet', [TweetController::class, 'store'])->name('addTweet');
     Route::get('/liked/{id}', [TweetController::class, 'like']);
+    Route::get('/tweet/{id}', [TweetController::class, 'tweet']);
 });
 require __DIR__ . '/auth.php';

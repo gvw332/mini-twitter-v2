@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class TweetController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request): RedirectResponse
     {
         try {
@@ -93,6 +91,7 @@ class TweetController extends Controller
             $page = $request->input('page');
 
             return redirect()->route('home', ['page' => $page]);
+            
         } catch (ValidationException $exception) {
             return redirect()->back()->withErrors($exception->errors())->withInput();
         }
@@ -100,36 +99,17 @@ class TweetController extends Controller
 
 
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id): Response
+    public function tweet($id)
     {
-        //
+            // Récupérer le tweet à liker
+            $tweet =  Tweet::with(['likes'])->withCount('likes')->findOrFail($id);
+            
+            $page = 1;           
+            return view('viewbyid', [
+                'tweet' => $tweet,
+                'page' => $page,    
+            ]);
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id): Response
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id): RedirectResponse
-    {
-        //
-    }
 }
