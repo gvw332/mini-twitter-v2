@@ -22,8 +22,5 @@ class Like extends Model
     {
         return $this->belongsTo(Tweet::class);
     }
-    // public function likes()
-    // {
-    //     return $this->hasMany(Like::class);
-    // }
+
 }

@@ -47,10 +47,9 @@
                     <x-heroicon-s-heart
                         class="w-5 h-5 m-5 {{ $tweet->isLikedBy(auth()->user()) ? 'text-red-500' : 'text-black-500' }} hover:text-red-500" />
                 @else
-                    <x-heroicon-s-heart class="w-5 h-5 m-5 hover:text-red-500" />
-                    {{-- class="w-5 h-5 m-5 {{ $tweet->isLikedBy(auth()->user()) ? 'text-red-500' : 'text-black-500' }} hover:text-red-500" /> --}}
-
+                    <x-heroicon-s-heart class="w-5 h-5 m-5 hover:text-red-500" />  
                 @endauth
+                
                 <div class="text-center">{{ $tweet->likes_count }}</div>
             </a>
 

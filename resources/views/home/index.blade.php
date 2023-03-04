@@ -44,8 +44,7 @@
         </div>
 
        
-        <div>
-            
+        <div>            
             @if (isset($notweets)and $notweets)
                 <p class="bg-red-400">Aucun tweet trouvé pour la recherche "{{ $search }}".</p>
             @endif

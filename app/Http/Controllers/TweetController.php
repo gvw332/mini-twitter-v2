@@ -18,8 +18,8 @@ class TweetController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'text' => 'required|max:500',
-                'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:5000', // validate each image
+                'text' => 'required|max:1000',
+                'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:6000', // validate each image
                 'video.*' => 'video|mimes:mp4',
             ]);
 
